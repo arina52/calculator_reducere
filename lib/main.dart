@@ -13,6 +13,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Calculator reducere',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+        ),
+        useMaterial3: true,
+      ),
       home: const CalculatorPage(),
     );
   }
@@ -46,55 +52,103 @@ class _CalculatorPageState extends State<CalculatorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calculator de reducere')
+        title: const Text(
+          'Calculator de reducere',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
 
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(
-              controller: priceController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Pret initial',
-                border: OutlineInputBorder(),
+            Card( elevation: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Introdu datele produsului',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: priceController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        labelText: 'Preț inițial',
+                        prefixIcon: Icon(Icons.attach_money),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    TextField(
+                      controller: discountController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        labelText: 'Procent de reducere (%)',
+                        prefixIcon: Icon(Icons.percent),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: calculateDiscount,
+                        icon: const Icon(Icons.calculate),
+                        label: const Text(
+                          'Calculează',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
+            const SizedBox(height: 25),
+            Card(
+              elevation: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Rezultat',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
 
-            const SizedBox(height: 15),
+                    const SizedBox(height: 15),
+                    Text(
+                      'Valoarea reducerii: ' '${discountValue.toStringAsFixed(2)} lei',
+                      style: const TextStyle( fontSize: 17, ),
+                    ),
 
-            TextField(
-              controller: discountController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Procent de reducere (%)',
-                border: OutlineInputBorder(),
-              ),
-            ),
+                    const SizedBox(height: 10),
 
-            const SizedBox(height: 20),
-
-            ElevatedButton(
-              onPressed: calculateDiscount,
-              child: const Text('Calculeaza'),
-            ),
-
-            const SizedBox(height: 30),
-
-            Text(
-              'Valoarea reducerii ${discountValue.toStringAsFixed(2)} lei',
-              style: const TextStyle(fontSize: 18),
-            ),
-
-            const SizedBox(height: 10),
-
-            Text(
-              'Pret final: ${finalPrice.toStringAsFixed(2)} lei',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                    Text(
+                      'Preț final: ${finalPrice.toStringAsFixed(2)} lei',
+                      style: const TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -103,4 +157,3 @@ class _CalculatorPageState extends State<CalculatorPage> {
     );
   }
 }
-
